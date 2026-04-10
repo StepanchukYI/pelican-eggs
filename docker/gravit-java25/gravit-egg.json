@@ -1,16 +1,16 @@
 {
-    "_comment": "GravitLauncher egg (Java 25) — AlaMine fork of VIZZI-DK/gravit-eggs. Image built & published by GitHub Actions in AlaMine-Team-Org/pelican-eggs.",
+    "_comment": "GravitLauncher egg (Java 25) — fork of VIZZI-DK/gravit-eggs. Image built & published by GitHub Actions in StepanchukYI/pelican-eggs.",
     "meta": {
         "version": "PTDL_v2",
         "update_url": null
     },
     "exported_at": "2026-04-10T21:00:00+03:00",
-    "name": "GravitLauncher (Java 25 — AlaMine)",
-    "author": "ops@alamine.day",
-    "description": "GravitLauncher LaunchServer on Java 25. Built from AlaMine-Team-Org/pelican-eggs.",
+    "name": "GravitLauncher (Java 25)",
+    "author": "bodunjo855@gmail.com",
+    "description": "GravitLauncher LaunchServer on Java 25. Built from StepanchukYI/pelican-eggs.",
     "features": null,
     "docker_images": {
-        "GravitLauncher Java 25 (AlaMine GHCR)": "ghcr.io/alamine-team-org/pelican-eggs:gravit-java25"
+        "GravitLauncher Java 25 (GHCR)": "ghcr.io/stepanchukyi/pelican-eggs:gravit-java25"
     },
     "file_denylist": [],
     "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -Dterminal.jline=false -Dterminal.ansi=true -javaagent:LaunchServer.jar -jar LaunchServer.jar;",

@@ -1,7 +1,7 @@
 FROM        --platform=$TARGETOS/$TARGETARCH eclipse-temurin:25-jdk-noble
 
-LABEL       org.opencontainers.image.source="https://github.com/AlaMine-Team-Org/pelican-eggs"
-LABEL       org.opencontainers.image.description="GravitLauncher core on Java 25 (AlaMine fork)"
+LABEL       org.opencontainers.image.source="https://github.com/StepanchukYI/pelican-eggs"
+LABEL       org.opencontainers.image.description="GravitLauncher core on Java 25"
 LABEL       org.opencontainers.image.licenses="MIT"
 
 USER        root

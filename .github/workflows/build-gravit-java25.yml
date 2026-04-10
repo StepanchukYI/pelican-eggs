@@ -34,5 +34,5 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/alamine-team-org/pelican-eggs:gravit-java25
-            ghcr.io/alamine-team-org/pelican-eggs:gravit-java25-${{ github.sha }}
+            ghcr.io/stepanchukyi/pelican-eggs:gravit-java25
+            ghcr.io/stepanchukyi/pelican-eggs:gravit-java25-${{ github.sha }}

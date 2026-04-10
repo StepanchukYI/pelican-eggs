@@ -1,0 +1,62 @@
+{
+    "_comment": "GravitLauncher egg (Java 25) — AlaMine fork of VIZZI-DK/gravit-eggs. Image built & published by GitHub Actions in AlaMine-Team-Org/pelican-eggs.",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-04-10T21:00:00+03:00",
+    "name": "GravitLauncher (Java 25 — AlaMine)",
+    "author": "ops@alamine.day",
+    "description": "GravitLauncher LaunchServer on Java 25. Built from AlaMine-Team-Org/pelican-eggs.",
+    "features": null,
+    "docker_images": {
+        "GravitLauncher Java 25 (AlaMine GHCR)": "ghcr.io/alamine-team-org/pelican-eggs:gravit-java25"
+    },
+    "file_denylist": [],
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -Dterminal.jline=false -Dterminal.ansi=true -javaagent:LaunchServer.jar -jar LaunchServer.jar;",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Starting netty server socket thread\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/ash\n# Gravit LaunchServer installation script\n# Server files: /mnt/server\n\napk add --no-cache curl unzip\n\nmkdir -p /mnt/server\ncd /mnt/server\n\necho \"Downloading LaunchServer\"\ns_version=${SERVER_VERSION}\nif [ \"$s_version\" = \"latest\" ]; then\n  s_version=$(curl --silent \"https://api.github.com/repos/GravitLauncher/Launcher/releases/latest\" | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\\1/' | cut -c2-)\nfi\n\ncurl -L https://github.com/GravitLauncher/Launcher/releases/download/v${s_version}/LaunchServer.jar --output LaunchServer.jar\ncurl -L https://github.com/GravitLauncher/Launcher/releases/download/v${s_version}/ServerWrapper.jar --output ServerWrapper.jar\ncurl -L https://github.com/GravitLauncher/Launcher/releases/download/v${s_version}/libraries.zip --output libraries.zip\ncurl -L https://github.com/GravitLauncher/Launcher/releases/download/v${s_version}/LaunchServerModules.zip --output LaunchServerModules.zip\ncurl -L https://github.com/GravitLauncher/Launcher/releases/download/v${s_version}/LauncherModules.zip --output LauncherModules.zip\nunzip -o libraries.zip\nrm libraries.zip\n\ndownloading_r=${SHOULD_DOWNLOAD_RUNTIME}\nif [ \"$downloading_r\" = \"1\" ] || [ \"$downloading_r\" = \"true\" ]; then\n  echo \"Downloading Runtime\"\n  r_version=${RUNTIME_VERSION}\n  if [ \"$r_version\" = \"latest\" ]; then\n    r_version=$(curl --silent \"https://api.github.com/repos/GravitLauncher/LauncherRuntime/releases/latest\" | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\\1/' | cut -c2-)\n  fi\n  curl -L https://github.com/GravitLauncher/LauncherRuntime/releases/download/v${r_version}/JavaRuntime_lmodule.jar --output JavaRuntime-${r_version}.jar\n  curl -L https://github.com/GravitLauncher/LauncherRuntime/releases/download/v${r_version}/runtime.zip --output runtime.zip\n  mkdir -p runtime/\n  unzip -o runtime.zip -d runtime/\n  rm runtime.zip\nfi\n\necho \"Done!\"",
+            "container": "alpine:3.19",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "LaunchServer Version",
+            "description": "Version of LaunchServer to install (or 'latest')",
+            "env_variable": "SERVER_VERSION",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        },
+        {
+            "name": "Runtime Version",
+            "description": "Version of Gravit Runtime to install (or 'latest')",
+            "env_variable": "RUNTIME_VERSION",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        },
+        {
+            "name": "Download Runtime",
+            "description": "Should we download Runtime when installing LaunchServer. Set to 1 to download.",
+            "env_variable": "SHOULD_DOWNLOAD_RUNTIME",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        }
+    ]
+}

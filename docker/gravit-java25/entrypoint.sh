@@ -10,10 +10,16 @@ export INTERNAL_IP
 # Switch to the container's working directory
 cd /home/container || exit 1
 
+# Gradle-generated bin/launchserver reads JAVA_OPTS. Compose it from Pterodactyl
+# memory limit and terminal flags. Any user-provided JAVA_OPTS wins (appended last).
+export JAVA_OPTS="-Xms128M -Xmx${SERVER_MEMORY}M -Dterminal.jline=false -Dterminal.ansi=true ${JAVA_OPTS:-}"
+
 printf "\033[1m\033[33mcontainer@gravitlauncher~ \033[0mjava home\n"
 echo "$JAVA_HOME"
 printf "\033[1m\033[33mcontainer@gravitlauncher~ \033[0mjava -version\n"
 java -version
+printf "\033[1m\033[33mcontainer@gravitlauncher~ \033[0mJAVA_OPTS\n"
+echo "$JAVA_OPTS"
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
 # variable format of "${VARIABLE}" before evaluating the string and automatically
